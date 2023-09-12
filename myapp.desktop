@@ -1,0 +1,7 @@
+[Desktop Entry]
+Name=My Application
+Exec=/home/ziegler/Desktop/ele_shell_exe_win/os-hardening-linux-x64/os-hardening
+Terminal=true
+Type=Application
+StartupNotify=true
+Encoding=UTF-8
