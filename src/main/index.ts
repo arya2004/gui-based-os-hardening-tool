@@ -3,7 +3,9 @@ import { join } from 'path'
 import { electronApp, optimizer, is } from '@electron-toolkit/utils'
 import icon from '../../resources/icon.png?asset'
 import * as nodeChildProcess from 'child_process'
-import path from 'path'
+
+// import the script from resources folder
+import helloWorldScript from '../../resources/script.sh?asset&asarUnpack'
 
 function createWindow(): void {
   // Create the browser window.
@@ -74,12 +76,12 @@ app.on('window-all-closed', () => {
 
 ipcMain.on('runScript', () => {
   // Windows
-  let script = nodeChildProcess.spawn('bash', [
-    path.resolve(__dirname, '..', '..', 'resources', 'script.sh')
-  ])
 
   // MacOS & Linux
-  // let script = nodeChildProcess.spawn('bash', ['test.sh', 'arg1', 'arg2']);
+  let script = nodeChildProcess.spawn('bash', [
+    helloWorldScript
+    // args
+  ])
 
   console.log('PID: ' + script.pid)
 
