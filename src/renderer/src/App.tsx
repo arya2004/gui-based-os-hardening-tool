@@ -1,5 +1,6 @@
 import { useState } from "react"
 import Conditional from "@components/Conditional"
+import Button from "@components/Button"
 
 // Some code for testing the Conditional component
 
@@ -19,8 +20,9 @@ function App(): JSX.Element {
     <div className="container">
       <Conditional>
         {/* If script is not running, render the button. Else, render the p tag */ }
-        <button slot="if" condition={!isScriptRunning} onClick={executeScript}>Run Script</button>
-        <p slot="else">Please wait, script is running...</p>
+        <Button slot="if" condition={!isScriptRunning} onClick={executeScript} icon="coffee" text="Run Script" />
+        
+        <p slot="else" className="text-lg text-center">Please wait, script is running...</p>
       </Conditional>
     </div>
   )

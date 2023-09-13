@@ -5,3 +5,10 @@ declare module 'react' {
     condition?: boolean
   }
 }
+
+declare module '@fortawesome/react-fontawesome' {
+  interface FontAwesomeIconProps {
+    slot?: string
+    condition?: Boolean
+  }
+}
