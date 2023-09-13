@@ -17,10 +17,10 @@
         "src/renderer/src/*"
       ],
       "@components/*": [
-        "src/renderer/src/components"
+        "src/renderer/src/components/*"
       ],
       "@assets/*": [
-        "src/renderer/src/asstes"
+        "src/renderer/src/assets/*"
       ]
     }
   }
