@@ -76,12 +76,30 @@ app.on('window-all-closed', () => {
 // code. You can also put them in separate files and require them here.
 
 ipcMain.on('runScript', () => {
-  // MacOS & Linux
+  // Windows
 
-  sudo.exec(`bash ${helloWorldScript}`, { name: 'OS Hardening' }, (error, stdout, stderr) => {
-    if (error) {
-      throw error
-    }
-    console.log('stdout: ' + stdout)
+  // MacOS & Linux
+  let script = nodeChildProcess.spawn('bash', [
+    helloWorldScript
+    // args
+  ])
+  // sudo.exec(`bash ${helloWorldScript}`, { name: 'OS Hardening' }, (error, stdout, stderr) => {
+  //   if (error) {
+  //     throw error
+  //   }
+  // })
+
+  console.log('PID: ' + script.pid)
+
+  script.stdout.on('data', (data) => {
+    console.log('stdout: ' + data)
+  })
+
+  script.stderr.on('data', (err) => {
+    console.log('stderr: ' + err)
+  })
+
+  script.on('exit', (code) => {
+    console.log('Exit Code: ' + code)
   })
 })
