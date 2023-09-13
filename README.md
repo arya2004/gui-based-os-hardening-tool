@@ -1,34 +1,10 @@
 # os-hardening
 
-An Electron application with React and TypeScript
+assuming condition:
+Noob: doesnt know sudo passwd
+IT admin: knows sudo passwd
 
-## Recommended IDE Setup
+APp has 2 login: 
+Sudo-> can change value, lets say change USB-0 enable/disable to USB-1
 
-- [VSCode](https://code.visualstudio.com/) + [ESLint](https://marketplace.visualstudio.com/items?itemName=dbaeumer.vscode-eslint) + [Prettier](https://marketplace.visualstudio.com/items?itemName=esbenp.prettier-vscode)
-
-## Project Setup
-
-### Install
-
-```bash
-$ npm install
-```
-
-### Development
-
-```bash
-$ npm run dev
-```
-
-### Build
-
-```bash
-# For windows
-$ npm run build:win
-
-# For macOS
-$ npm run build:mac
-
-# For Linux
-$ npm run build:linux
-```
+non-sudo -> execute these cmds(reuireing sudo too), (with consent of admin) 

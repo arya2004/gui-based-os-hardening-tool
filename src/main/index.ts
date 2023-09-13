@@ -7,6 +7,8 @@ import sudo from 'sudo-prompt'
 
 // import the script from resources folder
 import helloWorldScript from '../../resources/script.sh?asset&asarUnpack'
+import { writeFile } from 'fs'
+import { log } from 'console'
 
 function createWindow(): void {
   // Create the browser window.
@@ -80,7 +82,7 @@ ipcMain.on('runScript', () => {
 
   sudo.exec(`bash ${helloWorldScript}`, { name: 'OS Hardening' }, (error, stdout, stderr) => {
     if (error) {
-      throw error
+      console.log("wuegf");
     }
     console.log('stdout: ' + stdout)
   })
