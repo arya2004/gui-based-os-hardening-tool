@@ -1,34 +1,41 @@
 import Conditional from "./Conditional"
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { FontAwesomeIcon, FontAwesomeIconProps } from '@fortawesome/react-fontawesome'
+
 
 interface ButtonProps extends React.HTMLAttributes<HTMLButtonElement> {
   text?: string,
   disabled?: boolean,
   className?: string,
   style?: React.CSSProperties
-  icon?: any
-  iconPosition?: 'left' | 'right'
+  icon?: any,
+  iconPosition?: 'left' | 'right',
 }
 
 export default function Button (props: ButtonProps): JSX.Element {
 
-  // Setup some defaults for the props
-  const classNames = props.className || ''
-  const iconPosition = props.iconPosition || 'left'
-  const icon = props.icon || null
-  const style = props.style || {}
+  // Setup some defaults for the props which control button appearance
+  // otherProps may contain eventListeners, etc.
+  let {
+    className = '',
+    iconPosition = 'left',
+    style = {},
+    icon = null,
+    ...otherProps
+  } = props
 
-  // Classnames specified on the component override the default classnames
+  // Element must be a function since icon is a variable
+  const Element = (elProps: any) => icon
+
+  // Classnames specified on the Button component override the default classnames
   return (
-      <button {...props} style={style} className={'text-xl px-4 py-2 bg-primary rounded' + classNames}>
+      <button {...otherProps} style={style} className={'text-xl px-4 py-2 bg-primary rounded' + className}>
           <Conditional>
 
-            <FontAwesomeIcon slot="if" condition={icon && iconPosition == 'left'} icon={icon} />
+            <Element slot="if" condition={icon && iconPosition == 'left'} className={props.text ? 'mr-2' : ''} />
             
-
             <span slot="if" condition={Boolean(props.text)}>{props.text}</span>
           
-            <FontAwesomeIcon slot="if" condition={icon && iconPosition == 'right'} icon={icon} />
+            <Element slot="if" condition={icon && iconPosition == 'right'}  className={props.text ? 'ml-2' : ''}/>
 
           </Conditional>
         </button>

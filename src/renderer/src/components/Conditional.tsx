@@ -2,7 +2,11 @@
 
 export default function Conditional ({ children }): JSX.Element {
   
-  if (Array.isArray(children)) {
+  if (!Array.isArray(children)) {
+    children = [children]
+  }
+
+  
     
     let pairs = []
 
@@ -31,14 +35,23 @@ export default function Conditional ({ children }): JSX.Element {
           }
         }
       }
+      else {
+        pairs.push([child])
+      }
     }
 
     return (
       <>{
         pairs.map(pair => {
           let ifChild = pair[0]
+          let type = getType(ifChild)
           let otherChildren = pair.slice(1)
-          if (ifChild.props.condition) {
+          if (type == 'if') {
+            if (ifChild.props.condition) {
+              return ifChild
+            }
+          }
+          else {
             return ifChild
           }
           if(otherChildren.find(c => getType(c) == 'elseif' && c.props.condition)) {
@@ -47,14 +60,9 @@ export default function Conditional ({ children }): JSX.Element {
           if (getType(otherChildren[otherChildren.length - 1]) == 'else') {
             return otherChildren[otherChildren.length - 1]
           }
+          
         })
       }</>
     )
-  }
-  else {
-    return (
-      children.props.condition ? children : null
-    )
-  }
 
 }
