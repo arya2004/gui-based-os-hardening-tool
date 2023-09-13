@@ -22,16 +22,15 @@ function App(): JSX.Element {
     }, 3000)
   }
 
-  const icon = <Icon icon="coffee" spin={isScriptRunning} />
+  const icon = <Icon icon="gears" />
 
   return (
     
     <div className="container">
       <Conditional>
         {/* If script is not running, render the button. Else, render the p tag */ }
-        <Button onClick={executeScript} iconPosition="right" icon={icon} text="Hi mom"/>
-        
-        {/* <p slot="else" className="text-lg text-center">Please wait, script is running...</p> */}
+        <Button slot="if" condition={!isScriptRunning} onClick={executeScript} icon={icon} text="Hi mom" />
+        <p slot="else" className="text-lg text-center">Please wait, script is running...</p>
 
       </Conditional>
     </div>

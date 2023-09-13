@@ -1,5 +1,6 @@
 import Conditional from "./Conditional"
 import { FontAwesomeIcon, FontAwesomeIconProps } from '@fortawesome/react-fontawesome'
+import { cloneElement } from "react"
 
 
 interface ButtonProps extends React.HTMLAttributes<HTMLButtonElement> {
@@ -23,19 +24,22 @@ export default function Button (props: ButtonProps): JSX.Element {
     ...otherProps
   } = props
 
-  // Element must be a function since icon is a variable
-  const Element = (elProps: any) => icon
-
   // Classnames specified on the Button component override the default classnames
   return (
       <button {...otherProps} style={style} className={'text-xl px-4 py-2 bg-primary rounded' + className}>
           <Conditional>
 
-            <Element slot="if" condition={icon && iconPosition == 'left'} className={props.text ? 'mr-2' : ''} />
+            {
+              // If icon is specified, clone it and add it to the button
+              // cloneElement is needed because we need to add a slot and condition prop to the icon
+              cloneElement(icon, { slot: "if", condition: icon && iconPosition == 'left', className: props.text ? 'mr-2' : '' })
+            }
             
             <span slot="if" condition={Boolean(props.text)}>{props.text}</span>
-          
-            <Element slot="if" condition={icon && iconPosition == 'right'}  className={props.text ? 'ml-2' : ''}/>
+            
+            {
+              cloneElement(icon, { slot: "if", condition: icon && iconPosition == 'right', className: props.text ? 'ml-2' : '' })
+            }
 
           </Conditional>
         </button>
