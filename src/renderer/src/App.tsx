@@ -1,3 +1,5 @@
+import Button from "@renderer/components/Button"
+
 const executeScript = () => {
   window.ipcRenderer.send('runScript')
   console.log('Running Script')
@@ -6,7 +8,7 @@ const executeScript = () => {
 function App(): JSX.Element {
   return (
     <div className="container">
-      <button style={{ background: 'red' }} onClick={executeScript}>Click me bitch</button>
+      <Button onClick={() => console.log('hi mom')} text="hi bitch" />
     </div>
   )
 }

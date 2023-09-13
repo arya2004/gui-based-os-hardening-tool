@@ -10,9 +10,17 @@
     "composite": true,
     "jsx": "react-jsx",
     "baseUrl": ".",
+    "noUnusedLocals": false,
+    "noUnusedParameters": false,
     "paths": {
       "@renderer/*": [
         "src/renderer/src/*"
+      ],
+      "@components/*": [
+        "src/renderer/src/components"
+      ],
+      "@assets/*": [
+        "src/renderer/src/asstes"
       ]
     }
   }
