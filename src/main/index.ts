@@ -3,6 +3,7 @@ import { join } from 'path'
 import { electronApp, optimizer, is } from '@electron-toolkit/utils'
 import icon from '../../resources/icon.png?asset'
 import * as nodeChildProcess from 'child_process'
+import sudo from 'sudo-prompt'
 
 // import the script from resources folder
 import helloWorldScript from '../../resources/script.sh?asset&asarUnpack'
@@ -10,8 +11,8 @@ import helloWorldScript from '../../resources/script.sh?asset&asarUnpack'
 function createWindow(): void {
   // Create the browser window.
   const mainWindow = new BrowserWindow({
-    width: 900,
-    height: 670,
+    width: 1280,
+    height: 720,
     show: false,
     autoHideMenuBar: true,
     ...(process.platform === 'linux' ? { icon } : {}),
@@ -75,25 +76,12 @@ app.on('window-all-closed', () => {
 // code. You can also put them in separate files and require them here.
 
 ipcMain.on('runScript', () => {
-  // Windows
-
   // MacOS & Linux
-  let script = nodeChildProcess.spawn('bash', [
-    helloWorldScript
-    // args
-  ])
 
-  console.log('PID: ' + script.pid)
-
-  script.stdout.on('data', (data) => {
-    console.log('stdout: ' + data)
-  })
-
-  script.stderr.on('data', (err) => {
-    console.log('stderr: ' + err)
-  })
-
-  script.on('exit', (code) => {
-    console.log('Exit Code: ' + code)
+  sudo.exec(`bash ${helloWorldScript}`, { name: 'OS Hardening' }, (error, stdout, stderr) => {
+    if (error) {
+      throw error
+    }
+    console.log('stdout: ' + stdout)
   })
 })
