@@ -4,7 +4,7 @@ import { CommonProps } from '@renderer/main'
 export interface IconProps extends FontAwesomeIconProps, CommonProps {
 }
 
-export default function Icon(props: FontAwesomeIconProps): JSX.Element {
+export default function Icon(props: IconProps): JSX.Element {
   return (
     <FontAwesomeIcon {...props} />
   )

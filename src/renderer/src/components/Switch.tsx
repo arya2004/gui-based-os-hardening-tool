@@ -34,8 +34,8 @@ export default function Switch(props: SwitchProps): JSX.Element {
   }, [checked])
 
   const onClickHandler = (e: any) => {
-    setIsChecked(!isChecked)
     onClick(e, isChecked)
+    setIsChecked(!isChecked)
   }
 
   return (
