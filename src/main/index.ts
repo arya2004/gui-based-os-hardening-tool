@@ -1,9 +1,10 @@
 import { app, shell, BrowserWindow, ipcMain } from 'electron'
-import { join } from 'path'
+import path, { join } from 'path'
 import { electronApp, optimizer, is } from '@electron-toolkit/utils'
 import icon from '../../resources/icon.png?asset'
 import * as nodeChildProcess from 'child_process'
 import sudo from 'sudo-prompt'
+import { readFile } from 'fs'
 
 // import the script from resources folder
 import helloWorldScript from '../../resources/script.sh?asset&asarUnpack'
@@ -79,27 +80,32 @@ ipcMain.on('runScript', () => {
   // Windows
 
   // MacOS & Linux
-  let script = nodeChildProcess.spawn('bash', [
-    helloWorldScript
-    // args
-  ])
-  // sudo.exec(`bash ${helloWorldScript}`, { name: 'OS Hardening' }, (error, stdout, stderr) => {
-  //   if (error) {
-  //     throw error
-  //   }
+  // let script = nodeChildProcess.spawn('bash', [
+  //   helloWorldScript
+  //   // args
+  // ])
+  // // sudo.exec(`bash ${helloWorldScript}`, { name: 'OS Hardening' }, (error, stdout, stderr) => {
+  // //   if (error) {
+  // //     throw error
+  // //   }
+  // // })
+
+  // console.log('PID: ' + script.pid)
+
+  // script.stdout.on('data', (data) => {
+  //   console.log('stdout: ' + data)
   // })
 
-  console.log('PID: ' + script.pid)
+  // script.stderr.on('data', (err) => {
+  //   console.log('stderr: ' + err)
+  // })
 
-  script.stdout.on('data', (data) => {
-    console.log('stdout: ' + data)
-  })
+  // script.on('exit', (code) => {
+  //   console.log('Exit Code: ' + code)
+  // })
 
-  script.stderr.on('data', (err) => {
-    console.log('stderr: ' + err)
-  })
-
-  script.on('exit', (code) => {
-    console.log('Exit Code: ' + code)
+  readFile('./../../resources/script.sh', (err, result) => {
+    if (err) console.log(err)
+    console.log(result)
   })
 })
