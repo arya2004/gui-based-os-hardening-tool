@@ -39,10 +39,9 @@ function App(): JSX.Element {
   )
   return (
     <>
-      <Button onClick={() => queueAlert(alert)}>
+      <Button onClick={executeScript}>
         <p slot="text">Add atom</p>
       </Button>
-      <AlertContainer alerts={[]} />
     </>
   )
 }
