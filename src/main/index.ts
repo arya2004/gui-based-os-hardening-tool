@@ -5,9 +5,10 @@ import icon from '../../resources/icon.png?asset'
 import * as nodeChildProcess from 'child_process'
 import sudo from 'sudo-prompt'
 import { readFile } from 'fs'
+import { exec } from 'child_process'
 
 // import the script from resources folder
-import helloWorldScript from '../../resources/script.sh?asset&asarUnpack'
+import testScript from '../../resources/script.sh?asset&asarUnpack'
 
 function createWindow(): void {
   // Create the browser window.
@@ -40,6 +41,8 @@ function createWindow(): void {
     mainWindow.loadFile(join(__dirname, '../renderer/index.html'))
   }
 }
+
+app.commandLine.appendArgument('--no-sandbox')
 
 // This method will be called when Electron has finished
 // initialization and is ready to create browser windows.
@@ -78,34 +81,16 @@ app.on('window-all-closed', () => {
 
 ipcMain.on('runScript', () => {
   // Windows
-
   // MacOS & Linux
-  // let script = nodeChildProcess.spawn('bash', [
-  //   helloWorldScript
-  //   // args
-  // ])
-  // // sudo.exec(`bash ${helloWorldScript}`, { name: 'OS Hardening' }, (error, stdout, stderr) => {
-  // //   if (error) {
-  // //     throw error
-  // //   }
-  // // })
-
-  // console.log('PID: ' + script.pid)
-
-  // script.stdout.on('data', (data) => {
-  //   console.log('stdout: ' + data)
-  // })
-
-  // script.stderr.on('data', (err) => {
-  //   console.log('stderr: ' + err)
-  // })
-
-  // script.on('exit', (code) => {
-  //   console.log('Exit Code: ' + code)
-  // })
-
-  readFile('./../../resources/script.sh', (err, result) => {
-    if (err) console.log(err)
-    console.log(result)
+  exec(testScript, (error, stdout, stderr) => {
+    if (error) {
+      console.log(`error: ${error.message}`)
+      return
+    }
+    if (stderr) {
+      console.log(`stderr: ${stderr}`)
+      return
+    }
+    console.log(`stdout: ${stdout}`)
   })
 })

@@ -4,18 +4,22 @@ import Button from "@components/Button"
 import Icon from "@components/Icon"
 import Switch from "./components/Switch"
 import Alert from "./components/Alert"
+import AlertContainer from './components/AlertContainer'
+import useAlertsStore from './store/alerts'
 
 // Some code for testing the Conditional component
 
 function App(): JSX.Element {
   const [isScriptRunning, setIsScriptRunning] = useState(false)
 
+  let { queueAlert } = useAlertsStore()
+
   const executeScript = () => {
     if (isScriptRunning) return
 
     // Run the Script
     window.ipcRenderer.send('runScript')
-    
+
     // set scriptRunning variable to true
     setIsScriptRunning(true)
 
@@ -25,13 +29,19 @@ function App(): JSX.Element {
     }, 3000)
   }
 
+  let alert = (
+    <Alert>
+      <Button slot="button" iconPosition="left" className="bg-transparent">
+        <Icon slot="icon" icon="gears" fontSize={16} />
+      </Button>
+      <p slot="text">Heheboi</p>
+    </Alert>
+  )
   return (
-    
     <>
-        <Button slot="button" className="text-sm" iconPosition="left" onClick={executeScript}>
-          <Icon slot="icon" icon="gears" fontSize={16} />
-          <span slot="text" className="text-xl">Cancel</span>
-        </Button>
+      <Button onClick={executeScript}>
+        <p slot="text">Add atom</p>
+      </Button>
     </>
   )
 }

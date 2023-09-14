@@ -22,6 +22,8 @@ export default function Button (props: ButtonProps): JSX.Element {
     ...otherProps
   } = props
 
+  if (!Array.isArray(children)) children = [children]
+
   let icon = children.filter((child: any) => child.props.slot == 'icon')[0]
   let text = children.filter((child: any) => child.props.slot != 'icon')[0]
 
@@ -29,9 +31,9 @@ export default function Button (props: ButtonProps): JSX.Element {
   return (
       <button {...otherProps} style={style} className={`text-md px-4 py-2 bg-primary rounded flex items-center justify-between ${className}`}>
           <Conditional>
-            <div slot="if" condition={icon && iconPosition == 'right'} className="button-icon mr-2">{ icon }</div>
+            <div slot="if" condition={icon && iconPosition == 'right'} className={`button-icon ${text ? 'mr-2' : ''}`}>{ icon }</div>
             <div className="button-text">{ text }</div>
-            <div slot="if"  condition={icon && iconPosition == 'left'} className="button-icon ml-2">{ icon }</div>
+            <div slot="if"  condition={icon && iconPosition == 'left'}  className={`button-icon ${text ? 'ml-2' : ''}`}>{ icon }</div>
           </Conditional>
         </button>
         
