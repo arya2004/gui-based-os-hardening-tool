@@ -28,11 +28,10 @@ function App(): JSX.Element {
   return (
     
     <>
-      <Alert className="w-full">
-        <Icon slot="icon" icon="gears" />
-        <p slot="text">Hello World</p>
-        <Button slot="button" text="Click me bitch" className="text-sm" />
-      </Alert>
+        <Button slot="button" className="text-sm" iconPosition="left">
+          <Icon slot="icon" icon="gears" fontSize={16} />
+          <span slot="text" className="text-xl">Cancel</span>
+        </Button>
     </>
   )
 }

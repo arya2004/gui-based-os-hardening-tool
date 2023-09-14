@@ -3,12 +3,11 @@ import { cloneElement } from "react"
 import { ClassNameProp } from "@renderer/main"
 
 interface ButtonProps extends React.HTMLAttributes<HTMLButtonElement>,ClassNameProp {
-  text?: string,
   disabled?: boolean,
   className?: string,
   style?: React.CSSProperties
-  icon?: any,
   iconPosition?: 'left' | 'right',
+  children: any
 }
 
 export default function Button (props: ButtonProps): JSX.Element {
@@ -19,27 +18,20 @@ export default function Button (props: ButtonProps): JSX.Element {
     className = '',
     iconPosition = 'left',
     style = {},
-    icon = null,
+    children = [],
     ...otherProps
   } = props
 
+  let icon = children.filter((child: any) => child.props.slot == 'icon')[0]
+  let text = children.filter((child: any) => child.props.slot != 'icon')[0]
+
   // Classnames specified on the Button component override the default classnames
   return (
-      <button {...otherProps} style={style} className={`text-xl px-4 py-2 bg-primary rounded ${className}`}>
+      <button {...otherProps} style={style} className={`text-md px-4 py-2 bg-primary rounded flex items-center justify-between ${className}`}>
           <Conditional>
-
-            {
-              // If icon is specified, clone it and add it to the button
-              // cloneElement is needed because we need to add a slot and condition prop to the icon
-              icon ? cloneElement(icon, { slot: "if", condition: icon && iconPosition == 'left', className: props.text ? 'mr-2' : '' }) : null
-            }
-            
-            <span slot="if" condition={Boolean(props.text)}>{props.text}</span>
-            
-            { icon ?
-              cloneElement(icon, { slot: "if", condition: icon && iconPosition == 'right', className: props.text ? 'ml-2' : '' }) : null
-            }
-
+            <div slot="if" condition={icon && iconPosition == 'right'} className="button-icon mr-2">{ icon }</div>
+            <div className="button-text">{ text }</div>
+            <div slot="if"  condition={icon && iconPosition == 'left'} className="button-icon ml-2">{ icon }</div>
           </Conditional>
         </button>
         
