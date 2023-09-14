@@ -21,23 +21,23 @@ export default function Alert (props): JSX.Element {
   let text = children.filter((child: any) => child.props.slot == 'text')[0]
 
   return (
-    <div className={`flex items-center justify-between ${className}`} {...otherProps}>
+    <div
+      className={`flex items-center bg-red-400 w-1/2 rounded justify-between ${className}`}
+      {...otherProps}
+    >
       <Conditional>
-        
         <div slot="if" condition={icon && text} className="flex items-ceter justify-start">
-          { icon }
-          { text }
+          {icon}
+          {text}
         </div>
 
         <div slot="elseif" condition={text} className="flex items-ceter justify-start">
-          { text }
+          {text}
         </div>
 
-        
-        <div slot="if" condition={Boolean(buttons)} className="alert-buttons">{
-          buttons.map((button: any) => button)
-        }</div>
-
+        <div slot="if" condition={Boolean(buttons)} className="alert-buttons">
+          {buttons.map((button: any) => button)}
+        </div>
       </Conditional>
     </div>
   )
