@@ -1,14 +1,11 @@
 import { app, shell, BrowserWindow, ipcMain } from 'electron'
-import path, { join } from 'path'
+import { join } from 'path'
 import { electronApp, optimizer, is } from '@electron-toolkit/utils'
 import icon from '../../resources/icon.png?asset'
-import * as nodeChildProcess from 'child_process'
-import sudo from 'sudo-prompt'
-import { readFile } from 'fs'
-import { exec } from 'child_process'
+import { exec, execFile } from 'child_process'
 
 // import the script from resources folder
-import testScript from '../../resources/script.sh?asset&asarUnpack'
+// import testScript from '../../resources/script.sh?asset&asarUnpack'
 
 function createWindow(): void {
   // Create the browser window.
@@ -82,7 +79,12 @@ app.on('window-all-closed', () => {
 ipcMain.on('runScript', () => {
   // Windows
   // MacOS & Linux
-  exec(testScript, (error, stdout, stderr) => {
+
+  let testScript = `
+  apt-get update
+  `
+
+  exec(`sudo ${testScript.trim()}`, (error, stdout, stderr) => {
     if (error) {
       console.log(`error: ${error.message}`)
       return
