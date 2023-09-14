@@ -1,9 +1,8 @@
 import Conditional from "./Conditional"
-import { FontAwesomeIcon, FontAwesomeIconProps } from '@fortawesome/react-fontawesome'
 import { cloneElement } from "react"
+import { ClassNameProp } from "@renderer/main"
 
-
-interface ButtonProps extends React.HTMLAttributes<HTMLButtonElement> {
+interface ButtonProps extends React.HTMLAttributes<HTMLButtonElement>,ClassNameProp {
   text?: string,
   disabled?: boolean,
   className?: string,

@@ -5,8 +5,6 @@ export default function Conditional ({ children }): JSX.Element {
   if (!Array.isArray(children)) {
     children = [children]
   }
-
-  
     
     let pairs = []
 

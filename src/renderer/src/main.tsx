@@ -22,6 +22,16 @@ declare global {
     interface Window { ipcRenderer: any; }
 }
 
+export interface ConditionalProps {
+  condition?: boolean,
+  slot?: string,
+}
+
+export interface ClassNameProp {
+  className?: string
+}
+
+export interface CommonProps extends ConditionalProps, ClassNameProp {}
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
   <React.StrictMode>

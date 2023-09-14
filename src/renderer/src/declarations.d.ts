@@ -6,11 +6,3 @@ declare module 'react' {
     condition?: any
   }
 }
-
-declare module '@fortawesome/react-fontawesome' {
-  interface FontAwesomeIconProps {
-    slot?: string
-    condition?: any
-  }
-}
-
