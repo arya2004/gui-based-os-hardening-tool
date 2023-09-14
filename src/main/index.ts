@@ -78,7 +78,6 @@ app.on('window-all-closed', () => {
 
 ipcMain.on('runScript', () => {
   // Windows
-
   // MacOS & Linux
   // let script = nodeChildProcess.spawn('bash', [
   //   helloWorldScript
@@ -89,23 +88,30 @@ ipcMain.on('runScript', () => {
   // //     throw error
   // //   }
   // // })
-
   // console.log('PID: ' + script.pid)
-
   // script.stdout.on('data', (data) => {
   //   console.log('stdout: ' + data)
   // })
-
   // script.stderr.on('data', (err) => {
   //   console.log('stderr: ' + err)
   // })
-
   // script.on('exit', (code) => {
   //   console.log('Exit Code: ' + code)
   // })
+  sudo.exec(
+    `apt update`,
 
-  readFile('./../../resources/script.sh', (err, result) => {
-    if (err) console.log(err)
-    console.log(result)
-  })
+    { name: 'OS Hardening' },
+    (error, stdout, stderr) => {
+      if (error) {
+        console.log(`error: ${error.message}`)
+        return
+      }
+      if (stderr) {
+        console.log(`stderr: ${stderr}`)
+        return
+      }
+      console.log(`stdout: ${stdout}`)
+    }
+  )
 })

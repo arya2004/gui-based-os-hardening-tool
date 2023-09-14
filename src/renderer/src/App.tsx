@@ -28,10 +28,13 @@ function App(): JSX.Element {
   return (
     
     <>
-        <Button slot="button" className="text-sm" iconPosition="left" onClick={executeScript}>
-          <Icon slot="icon" icon="gears" fontSize={16} />
-          <span slot="text" className="text-xl">Cancel</span>
-        </Button>
+        <Alert>
+          <Button slot="button" iconPosition="left">
+            <Icon slot="icon" icon="gears" fontSize={16} />
+            <span slot="text" className="text-xl">Cancel</span>
+          </Button>
+          <p slot="text">Heheboi</p>
+        </Alert>
     </>
   )
 }
