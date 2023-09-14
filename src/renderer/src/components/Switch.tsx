@@ -1,5 +1,6 @@
 import { CommonProps } from '@renderer/main'
-import { useEffect, useState } from 'react'
+import { cloneElement, useEffect, useState } from 'react'
+import Conditional from './Conditional'
 
 interface SwitchProps extends CommonProps {
   checked?: boolean
@@ -9,6 +10,7 @@ interface SwitchProps extends CommonProps {
   knobColor?: string
   knobSize?: number
   barColor?: string
+  icon?: any
 }
 
 export default function Switch(props: SwitchProps): JSX.Element {
@@ -23,6 +25,7 @@ export default function Switch(props: SwitchProps): JSX.Element {
     knobColor = 'primary',
     knobSize = 7,
     barColor = 'gray-400',
+    icon = null,
     ...otherProps
   } = props
 
@@ -48,9 +51,11 @@ export default function Switch(props: SwitchProps): JSX.Element {
       <div
         className={`absolute top-1/2 ${
           isChecked ? 'left-0' : 'left-full'
-        } transition-all -translate-x-1/2 -translate-y-1/2 rounded-full bg-primary`}
+        } transition-all -translate-x-1/2 -translate-y-1/2 rounded-full bg-primary flex items-center justify-center`}
         style={{...knobStyles, background: knobColor, width: `${knobSize / 4}rem`, height: `${knobSize / 4}rem`}}
-      ></div>
+      >
+          {icon || null}
+      </div>
     </div>
   )
 }

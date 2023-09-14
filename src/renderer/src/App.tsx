@@ -29,8 +29,7 @@ function App(): JSX.Element {
     
     <div className="container">
       
-      
-      <Switch checked={true} />
+      <Switch className="mt-4 ml-4" checked={true} icon={icon} />
     </div>
   )
 }
