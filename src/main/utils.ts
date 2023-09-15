@@ -1,18 +1,48 @@
 import { App, BrowserWindow } from 'electron'
-import Common from 'electron/common'
-import { writeFileSync, readFile, unlink, watch } from 'fs'
+
+import { writeFileSync, readFile, unlink, watch, constants, access, write, unlinkSync } from 'fs'
 
 export const getUtils = (app: App, mainWindow: BrowserWindow) => {
-  unlink(`${app.getPath('logs')}/terminalOutput.txt`, (err) => {
-    if (err) console.log("unlink:"+err);
-    console.log('path/file.txt was deleted')});
+  let paths = [
+    { name: 'appData', path: app.getPath('appData') },
+    { name: 'userData', path: app.getPath('userData') },
+    { name: 'logs', path: app.getPath('logs') },
+    { name: 'temp', path: app.getPath('temp') },
+    { name: 'sessionData', path: app.getPath('sessionData') },
+    { name: 'desktop', path: app.getPath('desktop') },
+    { name: 'documents', path: app.getPath('documents') },
+    { name: 'downloads', path: app.getPath('downloads') },
+    { name: 'home', path: app.getPath('home') }
+  ]
 
-  const terminalOutputFile = `${app.getPath('logs')}/terminalOutput.txt`
+  let usablePathIndex = -1
+
+  for (let path of paths) {
+    try {
+      writeFileSync(path.path.concat('/test.txt'), '')
+      usablePathIndex = paths.indexOf(path)
+      unlinkSync(path.path.concat('/test.txt'))
+      console.log(`usable path is ${path.name}: ${path.path}`)
+      break
+    } catch (err) {
+      continue
+    }
+  }
+
+  if (usablePathIndex == -1) {
+    throw new Error('No usable path found. Please check your app permissions.')
+  }
+
+  const terminalOutputFile = paths[usablePathIndex].path.concat('/terminalOutput.txt')
+
 
   // Converts a string of commands so that
   // output of every command is piped to the output file.
   const pipeStdout = (command: string): string => {
-    command=command
+
+    if (!command) return ''
+    return command
+
       .split(/[;|\n]+/)
       .map((el) => el.trim())
       .filter((el) => el !== '')
@@ -34,13 +64,12 @@ export const getUtils = (app: App, mainWindow: BrowserWindow) => {
     if (data != null) {
       mainWindow.webContents.send('stdout', data)
       return null
-    } 
-    else {
-      let outputFile = `${app.getPath('logs')}/terminalOutput.txt`
-      console.log(outputFile)
-      writeFileSync(outputFile, '')
-      let watcher = watch(outputFile, () => {
-        readFile(outputFile, 'utf8', (err, data) => {
+
+    } else {
+      writeFileSync(terminalOutputFile, '')
+      let watcher = watch(terminalOutputFile, () => {
+        readFile(terminalOutputFile, 'utf8', (err, data) => {
+
           if (err) {
             console.log(err)
             return
@@ -52,12 +81,12 @@ export const getUtils = (app: App, mainWindow: BrowserWindow) => {
       // When process completes, watcher is closed.
       // Delete the terminal output file.
       watcher.on('close', () => {
-        unlink(outputFile, (err) => {
-          if (err) {
-            console.error(err)
-            return
-          }
-        })
+        // unlink(terminalOutputFile, (err) => {
+        //   if (err) {
+        //     console.error(err)
+        //     return
+        //   }
+        // })
       })
 
       return watcher

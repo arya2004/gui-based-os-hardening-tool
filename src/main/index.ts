@@ -6,8 +6,11 @@ import { spawn } from 'child_process'
 import sudo from 'sudo-prompt'
 import { exec, execSync } from 'get-pty-output'
 // import the script from resources folder
-import testScript from '../../resources/script.sh?asset&asarUnpack'
 import { getUtils } from './utils'
+import { readFile } from 'fs'
+import auditScript from '../../resources/audit.sh?asset&asarUnpack'
+import installScript from '../../resources/install.sh?asset&asarUnpack'
+import uninstallScript from '../../resources/uninstall.sh?asset&asarUnpack'
 
 let mainWindow: BrowserWindow
 
@@ -81,26 +84,45 @@ app.on('window-all-closed', () => {
 // In this file you can include the rest of your app"s specific main process
 // code. You can also put them in separate files and require them here.
 
-ipcMain.on('runScript', () => {
-  let { sendStdout, pipeStdout } = getUtils(app, mainWindow)
+ipcMain.on('runScript', (_, scriptName) => {
+  let { sendStdout, pipeStdout, terminalOutputFile } = getUtils(app, mainWindow)
+  console.log(terminalOutputFile)
 
-  let watcher = sendStdout()
+  // create a watcher which watches the file for changes
+  // and send the stdout to renderer
 
-  // Execute a command using sudo and pipe the output to the output file
-  sudo.exec(pipeStdout(`apt install lynis && lynis `), { name: 'OS Hardening' }, () => {
-    // Once process is complete, close the watcher
-    watcher.close()
-
-  })
-  
-
-  // try{
-  //   const res =  await exec('echo Hello')
-  //   console.log(res.output)// in color! ✨
-    
-  // }catch(err){
-  //   console.log("teri maka bh"+err)
-  // }
-
-
+  if (scriptName == 'install') {
+    let watcher = sendStdout()
+    readFile(installScript, 'utf8', (err, data) => {
+      if (err) console.log(err)
+      console.log(pipeStdout(data))
+      // // Execute a command using sudo and pipe the output to the output file
+      sudo.exec(pipeStdout(data), { name: 'OS Hardening' }, () => {
+        // Once process is complete, close the watcher
+        watcher.close()
+      })
+    })
+  } else if (scriptName == 'audit') {
+    let watcher = sendStdout()
+    readFile(auditScript, 'utf8', (err, data) => {
+      if (err) console.log(err)
+      console.log(pipeStdout(data))
+      // // Execute a command using sudo and pipe the output to the output file
+      sudo.exec(pipeStdout(data), { name: 'OS Hardening' }, () => {
+        // Once process is complete, close the watcher
+        watcher.close()
+      })
+    })
+  } else if (scriptName == 'uninstall') {
+    let watcher = sendStdout()
+    readFile(uninstallScript, 'utf8', (err, data) => {
+      if (err) console.log(err)
+      // console.log(pipeStdout(data))
+      // // Execute a command using sudo and pipe the output to the output file
+      sudo.exec(pipeStdout(data), { name: 'OS Hardening' }, () => {
+        // Once process is complete, close the watcher
+        watcher.close()
+      })
+    })
+  }
 })
