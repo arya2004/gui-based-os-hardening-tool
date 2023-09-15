@@ -1,16 +1,38 @@
-import { useState } from "react"
-import Conditional from "@components/Conditional"
-import Button from "@components/Button"
-import Icon from "@components/Icon"
-import Switch from "./components/Switch"
-import Alert from "./components/Alert"
-import AlertContainer from './components/AlertContainer'
+import { useEffect, useRef, useState, on } from 'react'
+import Button from '@components/Button'
+import Icon from '@components/Icon'
+import Alert from './components/Alert'
 import useAlertsStore from './store/alerts'
+import { Terminal } from 'xterm'
+import { FitAddon } from 'xterm-addon-fit'
 
 // Some code for testing the Conditional component
 
 function App(): JSX.Element {
   const [isScriptRunning, setIsScriptRunning] = useState(false)
+  const [count, setCount] = useState(0)
+  const termContainer = useRef(null)
+
+  useEffect(() => {
+    const terminal = new Terminal()
+    if (termContainer.current != null) {
+      terminal.open(termContainer.current)
+      const fitAddon = new FitAddon()
+      terminal.loadAddon(fitAddon)
+      fitAddon.fit()
+      terminal.write('Hehe boi 69 420')
+    }
+    return () => {
+      terminal.dispose()
+    }
+  }, [])
+
+  // useEffect(() => {
+  //   window.electron.ipcRenderer.on('stdout', (event, data) => {
+  //     console.log('this ran')
+  //     setStdout(data)
+  //   })
+  // }, [])
 
   let { queueAlert } = useAlertsStore()
 
@@ -29,19 +51,12 @@ function App(): JSX.Element {
     }, 3000)
   }
 
-  let alert = (
-    <Alert>
-      <Button slot="button" iconPosition="left" className="bg-transparent">
-        <Icon slot="icon" icon="gears" fontSize={16} />
-      </Button>
-      <p slot="text">Heheboi</p>
-    </Alert>
-  )
   return (
     <>
       <Button onClick={executeScript}>
         <p slot="text">Add atom</p>
       </Button>
+      <div ref={termContainer} className="terminalContainer"></div>
     </>
   )
 }

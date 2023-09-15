@@ -1,6 +1,8 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
 import './assets/index.css'
+import './assets/terminal.css'
+
 import App from './App'
 
 import { library } from '@fortawesome/fontawesome-svg-core'
