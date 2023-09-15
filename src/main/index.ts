@@ -6,8 +6,7 @@ import sudo from 'sudo-prompt'
 
 // import the script from resources folder
 import testScript from '../../resources/script.sh?asset&asarUnpack'
-import outputFile from '../../resources/output.txt?asset&asarUnpack'
-import { readFile, watchFile, writeFile, writeFileSync } from 'fs'
+import { existsSync, readFile, watchFile, writeFile, writeFileSync } from 'fs'
 
 let mainWindow: BrowserWindow
 
@@ -85,7 +84,13 @@ ipcMain.on('runScript', () => {
   // Windows
   // MacOS & Linux
 
-  writeFileSync(outputFile, '')
+  if (!existsSync(`${app.getPath('userData')}/terminalOutput.txt`)) {
+    writeFileSync(`${app.getPath('userData')}/terminalOutput.txt`, '')
+  }
+
+  let outputFile = `${app.getPath('userData')}/terminalOutput.txt`
+
+  console.log(outputFile)
 
   watchFile(outputFile, (eventType, fileName) => {
     readFile(outputFile, 'utf8', (err, data) => {
@@ -94,7 +99,7 @@ ipcMain.on('runScript', () => {
   })
 
   sudo.exec(
-    `bash ${testScript} > ${outputFile}`,
+    `ping google.com > ${outputFile}`,
     { name: 'OS Hardening' },
     (error, stdout, stderr) => {
       if (error) {

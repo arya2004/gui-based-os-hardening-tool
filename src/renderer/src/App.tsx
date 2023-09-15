@@ -1,10 +1,7 @@
 import { useEffect, useRef, useState, on } from 'react'
 import Button from '@components/Button'
-import Icon from '@components/Icon'
-import Alert from './components/Alert'
 import useAlertsStore from './store/alerts'
 import { Terminal } from 'xterm'
-import { FitAddon } from 'xterm-addon-fit'
 
 // Some code for testing the Conditional component
 
