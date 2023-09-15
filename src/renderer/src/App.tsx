@@ -24,22 +24,22 @@ function App(): JSX.Element {
     if (isScriptRunning) return
 
     // Run the Script
-    window.electron.ipcRenderer.send('runScript')
-
-    // set scriptRunning variable to true
-    setIsScriptRunning(true)
-
-    // reset it to false after 3 seconds
-    setTimeout(() => {
-      setIsScriptRunning(false)
-    }, 3000)
   }
 
   return (
     <>
-      <Button onClick={executeScript}>
-        <p slot="text">Execute script</p>
+      <Button onClick={() => window.electron.ipcRenderer.send('runScript', 'install')}>
+        <p slot="text">Install Lynis</p>
       </Button>
+
+      <Button onClick={() => window.electron.ipcRenderer.send('runScript', 'audit')}>
+        <p slot="text">Audit System</p>
+      </Button>
+
+      <Button onClick={() => window.electron.ipcRenderer.send('runScript', 'uninstall')}>
+        <p slot="text">Uninstall Lynis</p>
+      </Button>
+
       <div ref={termContainer} className="terminalContainer"></div>
     </>
   )
