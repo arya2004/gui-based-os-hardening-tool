@@ -1,2 +1,2 @@
 #!/bin/bash
-apt-get upgrade
+ping google.com

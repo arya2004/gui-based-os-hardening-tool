@@ -1,10 +1,7 @@
 import { useEffect, useRef, useState, on } from 'react'
 import Button from '@components/Button'
-import Icon from '@components/Icon'
-import Alert from './components/Alert'
 import useAlertsStore from './store/alerts'
 import { Terminal } from 'xterm'
-import { FitAddon } from 'xterm-addon-fit'
 
 // Some code for testing the Conditional component
 
@@ -13,26 +10,33 @@ function App(): JSX.Element {
   const [count, setCount] = useState(0)
   const termContainer = useRef(null)
 
+  let terminal: Terminal | null = null
+
+  const clearTerminal = () => {
+    if (terminal != null) {
+      terminal.write('\x1b[2J')
+      terminal.write('\x1b[u')
+    }
+  }
+
   useEffect(() => {
-    const terminal = new Terminal()
+    terminal = new Terminal()
+    terminal.write('\x1b[s')
     if (termContainer.current != null) {
       terminal.open(termContainer.current)
-      const fitAddon = new FitAddon()
-      terminal.loadAddon(fitAddon)
-      fitAddon.fit()
-      terminal.write('Hehe boi 69 420')
     }
     return () => {
-      terminal.dispose()
+      if (terminal) terminal.dispose()
     }
   }, [])
 
-  // useEffect(() => {
-  //   window.electron.ipcRenderer.on('stdout', (event, data) => {
-  //     console.log('this ran')
-  //     setStdout(data)
-  //   })
-  // }, [])
+  useEffect(() => {
+    window.electron.ipcRenderer.on('stdout', (event, data) => {
+      clearTerminal()
+      console.log(data)
+      terminal?.write(data)
+    })
+  }, [])
 
   let { queueAlert } = useAlertsStore()
 
