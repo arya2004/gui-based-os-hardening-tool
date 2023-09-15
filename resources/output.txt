@@ -1,0 +1,90 @@
+Get:1 http://packages.microsoft.com/repos/code stable InRelease [3,569 B]
+Hit:2 http://in.archive.ubuntu.com/ubuntu jammy InRelease
+Hit:3 https://dl.google.com/linux/chrome/deb stable InRelease
+Hit:4 http://in.archive.ubuntu.com/ubuntu jammy-updates InRelease
+Hit:5 http://security.ubuntu.com/ubuntu jammy-security InRelease
+Hit:6 http://in.archive.ubuntu.com/ubuntu jammy-backports InRelease
+Hit:7 https://ppa.launchpadcontent.net/graphics-drivers/ppa/ubuntu jammy InRelease
+Hit:8 http://packages.ros.org/ros2/ubuntu jammy InRelease
+Fetched 3,569 B in 2s (1,923 B/s)
+Reading package lists...
+Get:1 http://packages.microsoft.com/repos/code stable InRelease [3,569 B]
+Hit:2 http://security.ubuntu.com/ubuntu jammy-security InRelease
+Hit:3 https://dl.google.com/linux/chrome/deb stable InRelease
+Hit:4 http://in.archive.ubuntu.com/ubuntu jammy InRelease
+Hit:5 http://in.archive.ubuntu.com/ubuntu jammy-updates InRelease
+Hit:6 https://ppa.launchpadcontent.net/graphics-drivers/ppa/ubuntu jammy InRelease
+Hit:7 http://packages.ros.org/ros2/ubuntu jammy InRelease
+Hit:8 http://in.archive.ubuntu.com/ubuntu jammy-backports InRelease
+Fetched 3,569 B in 2s (2,331 B/s)
+Reading package lists...
+Get:1 http://packages.microsoft.com/repos/code stable InRelease [3,569 B]
+Hit:2 https://dl.google.com/linux/chrome/deb stable InRelease
+Hit:3 http://security.ubuntu.com/ubuntu jammy-security InRelease
+Hit:4 http://in.archive.ubuntu.com/ubuntu jammy InRelease
+Hit:5 http://in.archive.ubuntu.com/ubuntu jammy-updates InRelease
+Hit:6 http://in.archive.ubuntu.com/ubuntu jammy-backports InRelease
+Hit:7 https://ppa.launchpadcontent.net/graphics-drivers/ppa/ubuntu jammy InRelease
+Hit:8 http://packages.ros.org/ros2/ubuntu jammy InRelease
+Fetched 3,569 B in 2s (1,728 B/s)
+Reading package lists...
+Get:1 http://packages.microsoft.com/repos/code stable InRelease [3,569 B]
+Hit:2 https://dl.google.com/linux/chrome/deb stable InRelease
+Hit:3 http://security.ubuntu.com/ubuntu jammy-security InRelease
+Hit:4 http://in.archive.ubuntu.com/ubuntu jammy InRelease
+Hit:5 http://in.archive.ubuntu.com/ubuntu jammy-updates InRelease
+Hit:6 http://in.archive.ubuntu.com/ubuntu jammy-backports InRelease
+Hit:7 https://ppa.launchpadcontent.net/graphics-drivers/ppa/ubuntu jammy InRelease
+Hit:8 http://packages.ros.org/ros2/ubuntu jammy InRelease
+Fetched 3,569 B in 1s (2,746 B/s)
+Reading package lists...
+Get:1 http://packages.microsoft.com/repos/code stable InRelease [3,569 B]
+Hit:2 https://dl.google.com/linux/chrome/deb stable InRelease
+Hit:3 http://packages.ros.org/ros2/ubuntu jammy InRelease
+Hit:4 http://in.archive.ubuntu.com/ubuntu jammy InRelease
+Hit:5 https://ppa.launchpadcontent.net/graphics-drivers/ppa/ubuntu jammy InRelease
+Hit:6 http://in.archive.ubuntu.com/ubuntu jammy-updates InRelease
+Hit:7 http://security.ubuntu.com/ubuntu jammy-security InRelease
+Hit:8 http://in.archive.ubuntu.com/ubuntu jammy-backports InRelease
+Fetched 3,569 B in 2s (1,865 B/s)
+Reading package lists...
+Get:1 http://packages.microsoft.com/repos/code stable InRelease [3,569 B]
+Hit:2 https://dl.google.com/linux/chrome/deb stable InRelease
+Hit:3 http://security.ubuntu.com/ubuntu jammy-security InRelease
+Hit:4 http://in.archive.ubuntu.com/ubuntu jammy InRelease
+Hit:5 http://packages.ros.org/ros2/ubuntu jammy InRelease
+Hit:6 https://ppa.launchpadcontent.net/graphics-drivers/ppa/ubuntu jammy InRelease
+Hit:7 http://in.archive.ubuntu.com/ubuntu jammy-updates InRelease
+Hit:8 http://in.archive.ubuntu.com/ubuntu jammy-backports InRelease
+Fetched 3,569 B in 2s (1,937 B/s)
+Reading package lists...
+Get:1 http://packages.microsoft.com/repos/code stable InRelease [3,569 B]
+Hit:2 https://dl.google.com/linux/chrome/deb stable InRelease
+Hit:3 http://in.archive.ubuntu.com/ubuntu jammy InRelease
+Hit:4 http://security.ubuntu.com/ubuntu jammy-security InRelease
+Hit:5 http://in.archive.ubuntu.com/ubuntu jammy-updates InRelease
+Hit:6 http://packages.ros.org/ros2/ubuntu jammy InRelease
+Hit:7 http://in.archive.ubuntu.com/ubuntu jammy-backports InRelease
+Hit:8 https://ppa.launchpadcontent.net/graphics-drivers/ppa/ubuntu jammy InRelease
+Fetched 3,569 B in 2s (2,243 B/s)
+Reading package lists...
+Get:1 http://packages.microsoft.com/repos/code stable InRelease [3,569 B]
+Hit:2 https://dl.google.com/linux/chrome/deb stable InRelease
+Hit:3 http://security.ubuntu.com/ubuntu jammy-security InRelease
+Hit:4 https://ppa.launchpadcontent.net/graphics-drivers/ppa/ubuntu jammy InRelease
+Hit:5 http://in.archive.ubuntu.com/ubuntu jammy InRelease
+Hit:6 http://packages.ros.org/ros2/ubuntu jammy InRelease
+Hit:7 http://in.archive.ubuntu.com/ubuntu jammy-updates InRelease
+Hit:8 http://in.archive.ubuntu.com/ubuntu jammy-backports InRelease
+Fetched 3,569 B in 2s (1,777 B/s)
+Reading package lists...
+Get:1 http://packages.microsoft.com/repos/code stable InRelease [3,569 B]
+Hit:2 https://dl.google.com/linux/chrome/deb stable InRelease
+Hit:3 http://in.archive.ubuntu.com/ubuntu jammy InRelease
+Hit:4 http://packages.ros.org/ros2/ubuntu jammy InRelease
+Hit:5 http://in.archive.ubuntu.com/ubuntu jammy-updates InRelease
+Hit:6 http://in.archive.ubuntu.com/ubuntu jammy-backports InRelease
+Hit:7 http://security.ubuntu.com/ubuntu jammy-security InRelease
+Hit:8 https://ppa.launchpadcontent.net/graphics-drivers/ppa/ubuntu jammy InRelease
+Fetched 3,569 B in 2s (1,723 B/s)
+Reading package lists...
