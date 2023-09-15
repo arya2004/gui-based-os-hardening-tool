@@ -1,13 +1,11 @@
-import { app, shell, BrowserWindow, ipcMain, ipcRenderer } from 'electron'
+import { app, shell, BrowserWindow, ipcMain } from 'electron'
 import { join } from 'path'
 import { electronApp, optimizer, is } from '@electron-toolkit/utils'
 import icon from '../../resources/icon.png?asset'
 import sudo from 'sudo-prompt'
-
 // import the script from resources folder
 import testScript from '../../resources/script.sh?asset&asarUnpack'
-import { existsSync, readFile, watch, watchFile, writeFile, writeFileSync } from 'fs'
-import { debounce } from 'lodash'
+import { getUtils } from './utils'
 
 let mainWindow: BrowserWindow
 
@@ -81,37 +79,21 @@ app.on('window-all-closed', () => {
 // In this file you can include the rest of your app"s specific main process
 // code. You can also put them in separate files and require them here.
 
+const terminalOutputFile = `${app.getPath('logs')}/terminalOutput.txt`
+
 ipcMain.on('runScript', () => {
-  // Windows
-  // MacOS & Linux
+  let { sendStdout, pipeStdout } = getUtils(app, mainWindow)
+  let watcher = sendStdout()
 
-  if (!existsSync(`${app.getPath('userData')}/terminalOutput.txt`)) {
-    writeFileSync(`${app.getPath('userData')}/terminalOutput.txt`, '')
-  }
-
-  let outputFile = `${app.getPath('userData')}/terminalOutput.txt`
-
-  console.log(outputFile)
-
-  watch(outputFile, (eventType, fileName) => {
-    readFile(outputFile, 'utf8', (err, data) => {
-      mainWindow.webContents.send('stdout', data)
-    })
-  })
-
+  // Execute a command using sudo and pipe the output to the output file
   sudo.exec(
-    `ping google.com -c 4 > ${outputFile}`,
+    pipeStdout(`apt update
+  ping google.com -c 4
+  `),
     { name: 'OS Hardening' },
-    (error, stdout, stderr) => {
-      if (error) {
-        console.log(`error: ${error.message}`)
-        return
-      }
-      if (stderr) {
-        console.log(`stderr: ${stderr}`)
-        return
-      }
-      console.log(stdout)
+    () => {
+      // Once process is complete, close the watcher
+      watcher.close()
     }
   )
 })

@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState, on } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import Button from '@components/Button'
 import useAlertsStore from './store/alerts'
 import { Terminal } from 'xterm'
@@ -11,7 +11,6 @@ function App(): JSX.Element {
   const termContainer = useRef(null)
 
   let terminal: Terminal | null = null
-  let cols = 10
 
   const clearTerminal = () => {
     if (terminal != null) {
@@ -35,7 +34,7 @@ function App(): JSX.Element {
     window.electron.ipcRenderer.on('stdout', (event, data) => {
       let lines = data.split('\n')
       clearTerminal()
-      console.log(data)
+      console.log(lines)
       for (let line of lines) terminal?.writeln(line)
     })
   }, [])
@@ -46,7 +45,7 @@ function App(): JSX.Element {
     if (isScriptRunning) return
 
     // Run the Script
-    window.ipcRenderer.send('runScript')
+    window.electron.ipcRenderer.send('runScript')
 
     // set scriptRunning variable to true
     setIsScriptRunning(true)
