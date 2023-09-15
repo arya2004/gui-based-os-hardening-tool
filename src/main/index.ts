@@ -6,7 +6,8 @@ import sudo from 'sudo-prompt'
 
 // import the script from resources folder
 import testScript from '../../resources/script.sh?asset&asarUnpack'
-import { existsSync, readFile, watchFile, writeFile, writeFileSync } from 'fs'
+import { existsSync, readFile, watch, watchFile, writeFile, writeFileSync } from 'fs'
+import { debounce } from 'lodash'
 
 let mainWindow: BrowserWindow
 
@@ -92,14 +93,14 @@ ipcMain.on('runScript', () => {
 
   console.log(outputFile)
 
-  watchFile(outputFile, (eventType, fileName) => {
+  watch(outputFile, (eventType, fileName) => {
     readFile(outputFile, 'utf8', (err, data) => {
       mainWindow.webContents.send('stdout', data)
     })
   })
 
   sudo.exec(
-    `ping google.com > ${outputFile}`,
+    `ping google.com -c 4 > ${outputFile}`,
     { name: 'OS Hardening' },
     (error, stdout, stderr) => {
       if (error) {
@@ -110,7 +111,7 @@ ipcMain.on('runScript', () => {
         console.log(`stderr: ${stderr}`)
         return
       }
-      console.log(`stdout: ${stdout}`)
+      console.log(stdout)
     }
   )
 })

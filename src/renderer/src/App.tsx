@@ -11,6 +11,7 @@ function App(): JSX.Element {
   const termContainer = useRef(null)
 
   let terminal: Terminal | null = null
+  let cols = 10
 
   const clearTerminal = () => {
     if (terminal != null) {
@@ -32,9 +33,10 @@ function App(): JSX.Element {
 
   useEffect(() => {
     window.electron.ipcRenderer.on('stdout', (event, data) => {
+      let lines = data.split('\n')
       clearTerminal()
       console.log(data)
-      terminal?.write(data)
+      for (let line of lines) terminal?.writeln(line)
     })
   }, [])
 
