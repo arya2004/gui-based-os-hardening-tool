@@ -4,6 +4,8 @@ import { writeFileSync, readFile, unlink, watch } from 'fs'
 export const getUtils = (app: App, mainWindow: BrowserWindow) => {
   const terminalOutputFile = `${app.getPath('logs')}/terminalOutput.txt`
 
+  // Converts a string of commands so that
+  // output of every command is piped to the output file.
   const pipeStdout = (command: string): string => {
     return command
       .split(/[;|\n]+/)
@@ -19,6 +21,8 @@ export const getUtils = (app: App, mainWindow: BrowserWindow) => {
       .join('')
   }
 
+  // If data is provided, send it to the renderer.
+  // If not, it sends the contents of the terminalOutputFile
   const sendStdout = (data: any = null): any => {
     if (data != null) {
       mainWindow.webContents.send('stdout', data)
@@ -51,5 +55,5 @@ export const getUtils = (app: App, mainWindow: BrowserWindow) => {
     }
   }
 
-  return { sendStdout, pipeStdout }
+  return { sendStdout, pipeStdout, terminalOutputFile }
 }

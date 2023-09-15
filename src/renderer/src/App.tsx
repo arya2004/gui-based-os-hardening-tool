@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from 'react'
 import Button from '@components/Button'
 import useAlertsStore from './store/alerts'
 import { Terminal } from 'xterm'
+import useTerminal from './store/logs'
 
 // Some code for testing the Conditional component
 
@@ -10,36 +11,14 @@ function App(): JSX.Element {
   const [count, setCount] = useState(0)
   const termContainer = useRef(null)
 
-  let terminal: Terminal | null = null
-
-  const clearTerminal = () => {
-    if (terminal != null) {
-      terminal.write('\x1b[2J')
-      terminal.write('\x1b[u')
-    }
-  }
+  let term = useTerminal()
 
   useEffect(() => {
-    terminal = new Terminal()
-    terminal.write('\x1b[s')
-    if (termContainer.current != null) {
-      terminal.open(termContainer.current)
-    }
-    return () => {
-      if (terminal) terminal.dispose()
-    }
-  }, [])
+    term.createTerminal()
+    if (termContainer.current) term.setupTerminal(termContainer.current)
 
-  useEffect(() => {
-    window.electron.ipcRenderer.on('stdout', (event, data) => {
-      let lines = data.split('\n')
-      clearTerminal()
-      console.log(lines)
-      for (let line of lines) terminal?.writeln(line)
-    })
+    return () => term.disposeTerminal()
   }, [])
-
-  let { queueAlert } = useAlertsStore()
 
   const executeScript = () => {
     if (isScriptRunning) return

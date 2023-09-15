@@ -79,21 +79,14 @@ app.on('window-all-closed', () => {
 // In this file you can include the rest of your app"s specific main process
 // code. You can also put them in separate files and require them here.
 
-const terminalOutputFile = `${app.getPath('logs')}/terminalOutput.txt`
-
 ipcMain.on('runScript', () => {
   let { sendStdout, pipeStdout } = getUtils(app, mainWindow)
+
   let watcher = sendStdout()
 
   // Execute a command using sudo and pipe the output to the output file
-  sudo.exec(
-    pipeStdout(`apt update
-  ping google.com -c 4
-  `),
-    { name: 'OS Hardening' },
-    () => {
-      // Once process is complete, close the watcher
-      watcher.close()
-    }
-  )
+  sudo.exec(pipeStdout(`apt update && ping google.com -c 4`), { name: 'OS Hardening' }, () => {
+    // Once process is complete, close the watcher
+    watcher.close()
+  })
 })
