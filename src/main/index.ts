@@ -2,7 +2,9 @@ import { app, shell, BrowserWindow, ipcMain } from 'electron'
 import { join } from 'path'
 import { electronApp, optimizer, is } from '@electron-toolkit/utils'
 import icon from '../../resources/icon.png?asset'
+import { spawn } from 'child_process'
 import sudo from 'sudo-prompt'
+import { exec, execSync } from 'get-pty-output'
 // import the script from resources folder
 import testScript from '../../resources/script.sh?asset&asarUnpack'
 import { getUtils } from './utils'
@@ -85,8 +87,20 @@ ipcMain.on('runScript', () => {
   let watcher = sendStdout()
 
   // Execute a command using sudo and pipe the output to the output file
-  sudo.exec(pipeStdout(`apt update && ping google.com -c 4`), { name: 'OS Hardening' }, () => {
+  sudo.exec(pipeStdout(`apt install lynis && lynis `), { name: 'OS Hardening' }, () => {
     // Once process is complete, close the watcher
     watcher.close()
+
   })
+  
+
+  // try{
+  //   const res =  await exec('echo Hello')
+  //   console.log(res.output)// in color! ✨
+    
+  // }catch(err){
+  //   console.log("teri maka bh"+err)
+  // }
+
+
 })

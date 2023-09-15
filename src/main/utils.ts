@@ -1,13 +1,18 @@
 import { App, BrowserWindow } from 'electron'
+import Common from 'electron/common'
 import { writeFileSync, readFile, unlink, watch } from 'fs'
 
 export const getUtils = (app: App, mainWindow: BrowserWindow) => {
+  unlink(`${app.getPath('logs')}/terminalOutput.txt`, (err) => {
+    if (err) console.log("unlink:"+err);
+    console.log('path/file.txt was deleted')});
+
   const terminalOutputFile = `${app.getPath('logs')}/terminalOutput.txt`
 
   // Converts a string of commands so that
   // output of every command is piped to the output file.
   const pipeStdout = (command: string): string => {
-    return command
+    command=command
       .split(/[;|\n]+/)
       .map((el) => el.trim())
       .filter((el) => el !== '')
@@ -19,6 +24,8 @@ export const getUtils = (app: App, mainWindow: BrowserWindow) => {
         }
       })
       .join('')
+      console.log(command)
+      return command
   }
 
   // If data is provided, send it to the renderer.
@@ -27,8 +34,10 @@ export const getUtils = (app: App, mainWindow: BrowserWindow) => {
     if (data != null) {
       mainWindow.webContents.send('stdout', data)
       return null
-    } else {
+    } 
+    else {
       let outputFile = `${app.getPath('logs')}/terminalOutput.txt`
+      console.log(outputFile)
       writeFileSync(outputFile, '')
       let watcher = watch(outputFile, () => {
         readFile(outputFile, 'utf8', (err, data) => {
