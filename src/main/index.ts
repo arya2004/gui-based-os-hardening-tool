@@ -1,12 +1,11 @@
-import { app, shell, BrowserWindow, ipcMain, ipcRenderer } from 'electron'
+import { app, shell, BrowserWindow, ipcMain } from 'electron'
 import { join } from 'path'
 import { electronApp, optimizer, is } from '@electron-toolkit/utils'
 import icon from '../../resources/icon.png?asset'
 import sudo from 'sudo-prompt'
-
 // import the script from resources folder
 import testScript from '../../resources/script.sh?asset&asarUnpack'
-import { existsSync, readFile, watchFile, writeFile, writeFileSync } from 'fs'
+import { getUtils } from './utils'
 
 let mainWindow: BrowserWindow
 
@@ -81,36 +80,13 @@ app.on('window-all-closed', () => {
 // code. You can also put them in separate files and require them here.
 
 ipcMain.on('runScript', () => {
-  // Windows
-  // MacOS & Linux
+  let { sendStdout, pipeStdout } = getUtils(app, mainWindow)
 
-  if (!existsSync(`${app.getPath('userData')}/terminalOutput.txt`)) {
-    writeFileSync(`${app.getPath('userData')}/terminalOutput.txt`, '')
-  }
+  let watcher = sendStdout()
 
-  let outputFile = `${app.getPath('userData')}/terminalOutput.txt`
-
-  console.log(outputFile)
-
-  watchFile(outputFile, (eventType, fileName) => {
-    readFile(outputFile, 'utf8', (err, data) => {
-      mainWindow.webContents.send('stdout', data)
-    })
+  // Execute a command using sudo and pipe the output to the output file
+  sudo.exec(pipeStdout(`apt update && ping google.com -c 4`), { name: 'OS Hardening' }, () => {
+    // Once process is complete, close the watcher
+    watcher.close()
   })
-
-  sudo.exec(
-    `ping google.com > ${outputFile}`,
-    { name: 'OS Hardening' },
-    (error, stdout, stderr) => {
-      if (error) {
-        console.log(`error: ${error.message}`)
-        return
-      }
-      if (stderr) {
-        console.log(`stderr: ${stderr}`)
-        return
-      }
-      console.log(`stdout: ${stdout}`)
-    }
-  )
 })
