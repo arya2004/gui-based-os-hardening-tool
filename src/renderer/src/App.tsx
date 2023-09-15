@@ -38,7 +38,7 @@ function App(): JSX.Element {
   return (
     <>
       <Button onClick={executeScript}>
-        <p slot="text">Add atom</p>
+        <p slot="text">Execute script</p>
       </Button>
       <div ref={termContainer} className="terminalContainer"></div>
     </>

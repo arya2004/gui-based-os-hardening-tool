@@ -24,7 +24,7 @@ const useTerminal = create<TerminalType>()((set) => ({
     set((state) => {
       window.electron.ipcRenderer.on('stdout', (event, data) => {
         let lines = data.split('\n')
-        // terminal?.clear()
+        state.terminal?.clear()
         for (let line of lines) state.terminal?.writeln(line)
       })
       state.terminal?.open(element)
