@@ -23,9 +23,12 @@ const useTerminal = create<TerminalType>()((set) => ({
   setupTerminal: (element: HTMLElement) => {
     set((state) => {
       window.electron.ipcRenderer.on('stdout', (event, data) => {
+        
         let lines = data.split('\n')
+        console.log(lines)
         state.terminal?.clear()
-        for (let line of lines) state.terminal?.writeln(line)
+        for (let line of lines)state.terminal?.writeln(line)
+        
       })
       state.terminal?.open(element)
       return {}
