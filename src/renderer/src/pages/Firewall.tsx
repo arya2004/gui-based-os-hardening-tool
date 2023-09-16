@@ -28,7 +28,7 @@ export default function Firewall(): JSX.Element {
         <Button
           className="my-4"
           onClick={() =>
-            window.electron.ipcRenderer.send('runScript', { name: 'ufw', args: ['2'] })
+            window.electron.ipcRenderer.send('runScript', { name: 'ufw', mode:2 })
           }
         >
           <span slot="text">Firewall Status</span>
