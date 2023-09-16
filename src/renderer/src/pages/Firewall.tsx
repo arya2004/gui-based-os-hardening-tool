@@ -19,15 +19,21 @@ export default function Firewall(): JSX.Element {
 
   return (
     <div className="firewall">
-      <center>this is fireall pahge</center>
-      <div className="flex">
-        <p style={{marginInlineEnd:'2rem'}}>Enable Disable firewall</p>
-        <Switch onClick={runFirewallScript} style={{ marginInlineEnd: '10rem' }}></Switch>
-        <Button onClick={() => window.electron.ipcRenderer.send('runScript',  { name: 'ufw',args:['2'] })}>
-          <span slot="text">Uninstall Lynis</span>
+      <div className="mt-4">
+        <div className="flex items-center">
+          <span className="mr-4">Enable/Disable firewall</span>
+          <Switch onClick={runFirewallScript}></Switch>
+        </div>
+        <Button
+          className="my-4"
+          onClick={() =>
+            window.electron.ipcRenderer.send('runScript', { name: 'ufw', args: ['2'] })
+          }
+        >
+          <span slot="text">Firewall Status</span>
         </Button>
       </div>
-      <div ref={terminalContainer} className="terminalContainer"></div>
+      <div ref={terminalContainer} className="terminalContainer w-[90%]"></div>
     </div>
   )
 }

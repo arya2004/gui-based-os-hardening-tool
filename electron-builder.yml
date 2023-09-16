@@ -1,4 +1,4 @@
-appId: com.electron.app
+appId: com.ctrlaltdefeat.oshardening
 productName: os-hardening
 directories:
   buildResources: build

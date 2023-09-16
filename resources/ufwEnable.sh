@@ -1,5 +1,5 @@
 #!bin/bash
 
-# echo hello enable 
+echo hello enable 
 
 
