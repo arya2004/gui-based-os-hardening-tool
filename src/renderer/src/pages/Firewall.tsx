@@ -13,12 +13,13 @@ export default function Firewall(): JSX.Element {
   }, [])
 
   const runFirewallScript = (_, status) => {
-    if(status)window.electron.ipcRenderer.send('runScript', { name: 'ufw', args:['0'] })
-    else window.electron.ipcRenderer.send('runScript', { name: 'ufw', args:['1'] })
+    if(status)window.electron.ipcRenderer.send('runScript', { name: 'ufw', mode:0, args:["ARRAHFJKA"] })
+    else window.electron.ipcRenderer.send('runScript', { name: 'ufw', mode:1 ,args:["Vishal"] })
   }
 
   return (
     <div className="firewall">
+
       <div className="mt-4">
         <div className="flex items-center">
           <span className="mr-4">Enable/Disable firewall</span>

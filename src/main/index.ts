@@ -18,6 +18,7 @@ let mainWindow: BrowserWindow
 
 interface ScriptOptions {
   name: string
+  mode?: Number
   args?: string[]
 }
 
@@ -98,6 +99,10 @@ ipcMain.on('runScript', (_, ScriptOptions: ScriptOptions) => {
   // create a watcher which watches the file for changes
   // and send the stdout to renderer
 
+  
+
+
+
   if (ScriptOptions.name == 'install') {
     let watcher = sendStdout()
     readFile(installScript, 'utf8', (err, data) => {
@@ -155,22 +160,43 @@ ipcMain.on('runScript', (_, ScriptOptions: ScriptOptions) => {
   else if (ScriptOptions.name == 'ufw') {
 
 
-    if(Array.isArray(ScriptOptions.args)) {
-      if(ScriptOptions.args[0]=='0'){
+      // @ts-ignore
+      if(ScriptOptions.mode==0){
         // enable ufw
         let watcher = sendStdout()
         readFile(ufwScriptEnable, 'utf8', (err, data) => {
+          
+          // @ts-ignore
+        let command = `${(data)} `;
+        // let command = `${(data)} ${ScriptOptions.args.join(' ')}`;
+        
+        // if(command.includes("$1")){
+        //     command = command.replace("$1",ScriptOptions.args[0]);
+        // }
+
+        console.log("this")
+        ScriptOptions.args?.forEach((arg, index) => {
+          command= command.replace(`$${index+1}`,arg )
+          console.log(command)
+        })
+        console.log("this")
+
+
+
+
+
+
           if (err) console.log(err)
           // console.log(pipeStdout(data))
           // // Execute a command using sudo and pipe the output to the output file
-          sudo.exec(pipeStdout(data), { name: 'OS Hardening' }, () => {
+          sudo.exec(pipeStdout(command), { name: 'OS Hardening' }, () => {
             // Once process is complete, close the watcher
             watcher.close()
           })
         })
       }
-
-      else if(ScriptOptions.args[0]=='1'){
+      // @ts-ignore
+      else if(ScriptOptions.mode==1){
         // enable ufw
         let watcher = sendStdout()
         readFile(ufwScriptDisable, 'utf8', (err, data) => {
@@ -183,8 +209,8 @@ ipcMain.on('runScript', (_, ScriptOptions: ScriptOptions) => {
           })
         })
       }
-
-      else if(ScriptOptions.args[0]=='2'){
+      // @ts-ignore
+      else if(ScriptOptions.mode==2){
         // enable ufw
         let watcher = sendStdout()
         readFile(ufwScriptStatus, 'utf8', (err, data) => {
@@ -211,7 +237,7 @@ ipcMain.on('runScript', (_, ScriptOptions: ScriptOptions) => {
 
 
 
-    }
+    
 
 
 
