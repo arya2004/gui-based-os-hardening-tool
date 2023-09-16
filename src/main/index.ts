@@ -9,6 +9,7 @@ import { readFile } from 'fs'
 import auditScript from '../../resources/audit.sh?asset&asarUnpack'
 import installScript from '../../resources/install.sh?asset&asarUnpack'
 import uninstallScript from '../../resources/uninstall.sh?asset&asarUnpack'
+import quickScript from '../../resources/quick.sh?asset&asarUnpack'
 
 let mainWindow: BrowserWindow
 
@@ -114,6 +115,17 @@ ipcMain.on('runScript', (_, scriptName) => {
   } else if (scriptName == 'uninstall') {
     let watcher = sendStdout()
     readFile(uninstallScript, 'utf8', (err, data) => {
+      if (err) console.log(err)
+      // console.log(pipeStdout(data))
+      // // Execute a command using sudo and pipe the output to the output file
+      sudo.exec(pipeStdout(data), { name: 'OS Hardening' }, () => {
+        // Once process is complete, close the watcher
+        watcher.close()
+      })
+    })
+  }else if (scriptName == 'quick') {
+    let watcher = sendStdout()
+    readFile(quickScript, 'utf8', (err, data) => {
       if (err) console.log(err)
       // console.log(pipeStdout(data))
       // // Execute a command using sudo and pipe the output to the output file
