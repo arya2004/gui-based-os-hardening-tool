@@ -11,6 +11,7 @@ interface SwitchProps extends CommonProps {
   knobSize?: number
   barColor?: string
   icon?: any
+  style: React.CSSProperties
 }
 
 export default function Switch(props: SwitchProps): JSX.Element {
@@ -26,6 +27,7 @@ export default function Switch(props: SwitchProps): JSX.Element {
     knobSize = 7,
     barColor = 'gray-400',
     icon = null,
+    style = {},
     ...otherProps
   } = props
 
@@ -38,11 +40,14 @@ export default function Switch(props: SwitchProps): JSX.Element {
     setIsChecked(!isChecked)
   }
 
+
+
   return (
     <div
       className={`relative w-10 cursor-pointer ${className}`}
       onClick={onClickHandler}
       {...otherProps}
+      style={style}
     >
       <div
         className={`absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-3 rounded bg-gray-300`}
