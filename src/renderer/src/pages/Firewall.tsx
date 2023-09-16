@@ -13,8 +13,8 @@ export default function Firewall(): JSX.Element {
   }, [])
 
   const runFirewallScript = (_, status) => {
-    if(status)window.electron.ipcRenderer.send('runScript', { name: 'ufw', args:['0'] })
-    else window.electron.ipcRenderer.send('runScript', { name: 'ufw', args:['1'] })
+    if(status)window.electron.ipcRenderer.send('runScript', { name: 'ufw', mode:0, args:["ARRAHFJKA"] })
+    else window.electron.ipcRenderer.send('runScript', { name: 'ufw', mode:1 ,args:["Vishal"] })
   }
 
   return (
@@ -23,8 +23,8 @@ export default function Firewall(): JSX.Element {
       <div className="flex">
         <p style={{marginInlineEnd:'2rem'}}>Enable Disable firewall</p>
         <Switch onClick={runFirewallScript} style={{ marginInlineEnd: '10rem' }}></Switch>
-        <Button onClick={() => window.electron.ipcRenderer.send('runScript',  { name: 'ufw',args:['2'] })}>
-          <span slot="text">Uninstall Lynis</span>
+        <Button onClick={() => window.electron.ipcRenderer.send('runScript',  { name: 'ufw',mode:2 })}>
+          <span slot="text">ufwStatus</span>
         </Button>
       </div>
       <div ref={terminalContainer} className="terminalContainer"></div>
