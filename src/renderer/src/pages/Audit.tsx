@@ -1,5 +1,6 @@
 import useTerminal from '@renderer/store/logs'
 import { useEffect, useRef } from 'react'
+import Button from '@renderer/components/Button'
 
 export default function Audit(): JSX.Element {
   let term = useTerminal()
@@ -13,8 +14,18 @@ export default function Audit(): JSX.Element {
 
   return (
     <div className="audit">
-      {/* <div ref={terminalContainer} className="terminalContainer"></div> */}
-      <center>this is odit pgea</center>
+      <div className="flex">
+        <Button onClick={() => window.electron.ipcRenderer.send('runScript', 'install')}>
+          <span slot="text">Install Lynis</span>
+        </Button>
+        <Button onClick={() => window.electron.ipcRenderer.send('runScript', 'audit')}>
+          <span slot="text">Run System Audit</span>
+        </Button>
+        <Button onClick={() => window.electron.ipcRenderer.send('runScript', 'uninstall')}>
+          <span slot="text">Uninstall Lynis</span>
+        </Button>
+      </div>
+      <div ref={terminalContainer} className="terminalContainer"></div>
     </div>
   )
 }

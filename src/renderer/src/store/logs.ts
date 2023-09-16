@@ -1,5 +1,6 @@
 import { create } from 'zustand'
 import { Terminal } from 'xterm'
+import { FitAddon } from 'xterm-addon-fit'
 
 type TerminalType = {
   terminal: Terminal | null
@@ -23,14 +24,15 @@ const useTerminal = create<TerminalType>()((set) => ({
   setupTerminal: (element: HTMLElement) => {
     set((state) => {
       window.electron.ipcRenderer.on('stdout', (event, data) => {
-        
         let lines = data.split('\n')
         console.log(lines)
         state.terminal?.clear()
-        for (let line of lines)state.terminal?.writeln(line)
-        
+        for (let line of lines) state.terminal?.writeln(line)
       })
+      let addon = new FitAddon()
+      state.terminal?.loadAddon(addon)
       state.terminal?.open(element)
+      addon.fit()
       return {}
     })
   },
