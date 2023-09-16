@@ -13,19 +13,28 @@ export default function Audit(): JSX.Element {
   }, [])
 
   return (
-    <div className="audit">
-      <div className="flex">
-        <Button onClick={() => window.electron.ipcRenderer.send('runScript', { name: 'install' })}>
+    <div className="audit p-2">
+      <div className="flex items-center justify-start">
+        <Button
+          className="mr-2"
+          onClick={() => window.electron.ipcRenderer.send('runScript', { name: 'install' })}
+        >
           <span slot="text">Install Lynis</span>
         </Button>
-        <Button onClick={() => window.electron.ipcRenderer.send('runScript',  { name: 'audit' })}>
+        <Button
+          className="mr-2"
+          onClick={() => window.electron.ipcRenderer.send('runScript', { name: 'audit' })}
+        >
           <span slot="text">Run System Audit</span>
         </Button>
-        <Button onClick={() => window.electron.ipcRenderer.send('runScript', { name: 'uninstall' } )}>
+        <Button
+          className="mr-2"
+          onClick={() => window.electron.ipcRenderer.send('runScript', { name: 'uninstall' })}
+        >
           <span slot="text">Uninstall Lynis</span>
         </Button>
       </div>
-      <div ref={terminalContainer} className="terminalContainer"></div>
+      <div ref={terminalContainer} className="terminalContainer w-[90%] mt-4"></div>
     </div>
   )
 }

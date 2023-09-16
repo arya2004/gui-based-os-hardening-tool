@@ -29,13 +29,28 @@ export default function Button (props: ButtonProps): JSX.Element {
 
   // Classnames specified on the Button component override the default classnames
   return (
-      <button {...otherProps} style={style} className={`text-md px-4 py-2 bg-primary rounded flex items-center justify-between ${className}`}>
-          <Conditional>
-            <div slot="if" condition={icon && iconPosition == 'right'} className={`button-icon ${text ? 'mr-2' : ''}`}>{ icon }</div>
-            <div className="button-text">{ text }</div>
-            <div slot="if"  condition={icon && iconPosition == 'left'}  className={`button-icon ${text ? 'ml-2' : ''}`}>{ icon }</div>
-          </Conditional>
-        </button>
-        
+    <button
+      {...otherProps}
+      style={style}
+      className={`text-md px-4 py-2 border-solid border-2 transition duration-200 bg-primary text-white hover:text-primary border-primary hover:bg-white rounded-md flex items-center justify-between active:scale-95 ${className}`}
+    >
+      <Conditional>
+        <div
+          slot="if"
+          condition={icon && iconPosition == 'right'}
+          className={`button-icon ${text ? 'mr-2' : ''}`}
+        >
+          {icon}
+        </div>
+        <div className="button-text">{text}</div>
+        <div
+          slot="if"
+          condition={icon && iconPosition == 'left'}
+          className={`button-icon ${text ? 'ml-2' : ''}`}
+        >
+          {icon}
+        </div>
+      </Conditional>
+    </button>
   )
 }

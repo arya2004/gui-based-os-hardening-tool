@@ -14,13 +14,12 @@ export default function Home(): JSX.Element {
 
   return (
     <div className="audit">
-      <div className="flex">
-        <Button onClick={() => window.electron.ipcRenderer.send('runScript',{ name: 'quick' })}>
+      <div className="flex mt-2">
+        <Button onClick={() => window.electron.ipcRenderer.send('runScript', { name: 'quick' })}>
           <span slot="text">Quick Harden</span>
         </Button>
-        
       </div>
-      <div ref={terminalContainer} className="terminalContainer"></div>
+      <div ref={terminalContainer} className="terminalContainer w-[90%] mt-4"></div>
     </div>
   )
 }
