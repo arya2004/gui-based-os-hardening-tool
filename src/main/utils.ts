@@ -1,6 +1,16 @@
 import { App, BrowserWindow } from 'electron'
 
-import { writeFileSync, readFile, unlink, watch, constants, access, write, unlinkSync } from 'fs'
+import {
+  writeFileSync,
+  readFile,
+  unlink,
+  watch,
+  constants,
+  access,
+  write,
+  unlinkSync,
+  appendFile
+} from 'fs'
 
 export const getUtils = (app: App, mainWindow: BrowserWindow) => {
   let paths = [
@@ -35,11 +45,9 @@ export const getUtils = (app: App, mainWindow: BrowserWindow) => {
 
   const terminalOutputFile = paths[usablePathIndex].path.concat('/terminalOutput.txt')
 
-
   // Converts a string of commands so that
   // output of every command is piped to the output file.
   const pipeStdout = (command: string): string => {
-
     if (!command) return ''
     return command
 
@@ -54,8 +62,6 @@ export const getUtils = (app: App, mainWindow: BrowserWindow) => {
         }
       })
       .join('')
-      console.log(command)
-      return command
   }
 
   // If data is provided, send it to the renderer.
@@ -64,12 +70,10 @@ export const getUtils = (app: App, mainWindow: BrowserWindow) => {
     if (data != null) {
       mainWindow.webContents.send('stdout', data)
       return null
-
     } else {
       writeFileSync(terminalOutputFile, '')
       let watcher = watch(terminalOutputFile, () => {
         readFile(terminalOutputFile, 'utf8', (err, data) => {
-
           if (err) {
             console.log(err)
             return
@@ -81,12 +85,21 @@ export const getUtils = (app: App, mainWindow: BrowserWindow) => {
       // When process completes, watcher is closed.
       // Delete the terminal output file.
       watcher.on('close', () => {
-        // unlink(terminalOutputFile, (err) => {
-        //   if (err) {
-        //     console.error(err)
-        //     return
-        //   }
-        // })
+        appendFile(terminalOutputFile, '\nDone', (err) => {
+          readFile(terminalOutputFile, 'utf8', (err, data) => {
+            if (err) {
+              console.log(err)
+              return
+            }
+            mainWindow.webContents.send('stdout', data)
+            unlink(terminalOutputFile, (err) => {
+              if (err) {
+                console.error(err)
+                return
+              }
+            })
+          })
+        })
       })
 
       return watcher

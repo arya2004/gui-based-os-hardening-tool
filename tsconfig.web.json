@@ -21,6 +21,15 @@
       ],
       "@assets/*": [
         "src/renderer/src/assets/*"
+      ],
+      "@pages/*": [
+        "src/renderer/src/pages/*"
+      ],
+      "@resources/*": [
+        "resources/*"
+      ],
+      "@store/*": [
+        "src/renderer/src/store/*"
       ]
     }
   }
