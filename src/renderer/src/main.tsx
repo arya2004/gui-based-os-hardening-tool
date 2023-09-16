@@ -6,6 +6,7 @@ import './assets/terminal.css'
 import Home from '@pages/Home'
 import Audit from '@pages/Audit'
 import Firewall from '@pages/Firewall'
+import File from '@pages/File'
 import PageWrapper from './layouts/PageWrapper'
 
 import { library } from '@fortawesome/fontawesome-svg-core'
@@ -63,6 +64,14 @@ const router = createHashRouter([
     element: (
       <PageWrapper>
         <Firewall />
+      </PageWrapper>
+    )
+  },
+  {
+    path: '/file',
+    element: (
+      <PageWrapper>
+        <File />
       </PageWrapper>
     )
   }

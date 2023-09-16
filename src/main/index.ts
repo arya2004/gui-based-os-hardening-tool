@@ -10,6 +10,7 @@ import auditScript from '../../resources/audit.sh?asset&asarUnpack'
 import installScript from '../../resources/install.sh?asset&asarUnpack'
 import uninstallScript from '../../resources/uninstall.sh?asset&asarUnpack'
 import quickScript from '../../resources/quick.sh?asset&asarUnpack'
+import tempScript from '../../resources/zieg.sh?asset&asarUnpack'
 
 let mainWindow: BrowserWindow
 
@@ -83,7 +84,7 @@ app.on('window-all-closed', () => {
 // In this file you can include the rest of your app"s specific main process
 // code. You can also put them in separate files and require them here.
 
-ipcMain.on('runScript', (_, scriptName) => {
+ipcMain.on('runScript', (_, scriptName, args) => {
   let { sendStdout, pipeStdout, terminalOutputFile } = getUtils(app, mainWindow)
   console.log(terminalOutputFile)
 
@@ -130,6 +131,23 @@ ipcMain.on('runScript', (_, scriptName) => {
       // console.log(pipeStdout(data))
       // // Execute a command using sudo and pipe the output to the output file
       sudo.exec(pipeStdout(data), { name: 'OS Hardening' }, () => {
+        // Once process is complete, close the watcher
+        watcher.close()
+      })
+    })
+  }else if (scriptName == 'dotnetmwoe') {
+    let watcher = sendStdout()
+    readFile(tempScript, 'utf8', (err, data) => {
+      if (err) console.log(err)
+      // console.log(pipeStdout(data))
+      // // Execute a command using sudo and pipe the output to the output file
+      let command = `${(data)} ${args.join(' ')}`;
+      if(command.includes("$1")){
+       command = command.replace("$1", args[0]);
+      }
+      console.log(command);
+      console.log("qwerty");
+      sudo.exec(pipeStdout(command), { name: 'OS Hardening' }, () => {
         // Once process is complete, close the watcher
         watcher.close()
       })

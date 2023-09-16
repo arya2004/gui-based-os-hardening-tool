@@ -9,7 +9,8 @@ export default function Sidebar(): JSX.Element {
   const sidebarOptions = [
     { name: 'Home', path: '/' },
     { name: 'Audit', path: '/audit' },
-    { name: 'Firewall', path: '/firewall' }
+    { name: 'Firewall', path: '/firewall' },
+    { name: 'File', path: '/file' }
   ]
 
   return (
