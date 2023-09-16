@@ -15,7 +15,7 @@ export default function Home(): JSX.Element {
   return (
     <div className="audit">
       <div className="flex">
-        <Button onClick={() => window.electron.ipcRenderer.send('runScript', 'quick')}>
+        <Button onClick={() => window.electron.ipcRenderer.send('runScript',{ name: 'quick' })}>
           <span slot="text">Quick Harden</span>
         </Button>
         

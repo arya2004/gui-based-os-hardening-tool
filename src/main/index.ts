@@ -10,8 +10,16 @@ import auditScript from '../../resources/audit.sh?asset&asarUnpack'
 import installScript from '../../resources/install.sh?asset&asarUnpack'
 import uninstallScript from '../../resources/uninstall.sh?asset&asarUnpack'
 import quickScript from '../../resources/quick.sh?asset&asarUnpack'
-
+import ufwScriptEnable from '../../resources/ufwEnable.sh?asset&asarUnpack'
+import ufwScriptDisable from '../../resources/ufwDisable.sh?asset&asarUnpack'
+import ufwScriptStatus from '../../resources/ufwStatus.sh?asset&asarUnpack'
 let mainWindow: BrowserWindow
+
+
+interface ScriptOptions {
+  name: string
+  args?: string[]
+}
 
 function createWindow(): void {
   // Create the browser window.
@@ -83,14 +91,14 @@ app.on('window-all-closed', () => {
 // In this file you can include the rest of your app"s specific main process
 // code. You can also put them in separate files and require them here.
 
-ipcMain.on('runScript', (_, scriptName) => {
+ipcMain.on('runScript', (_, ScriptOptions: ScriptOptions) => {
   let { sendStdout, pipeStdout, terminalOutputFile } = getUtils(app, mainWindow)
   console.log(terminalOutputFile)
 
   // create a watcher which watches the file for changes
   // and send the stdout to renderer
 
-  if (scriptName == 'install') {
+  if (ScriptOptions.name == 'install') {
     let watcher = sendStdout()
     readFile(installScript, 'utf8', (err, data) => {
       if (err) console.log(err)
@@ -101,7 +109,7 @@ ipcMain.on('runScript', (_, scriptName) => {
         watcher.close()
       })
     })
-  } else if (scriptName == 'audit') {
+  } else if (ScriptOptions.name == 'audit') {
     let watcher = sendStdout()
     readFile(auditScript, 'utf8', (err, data) => {
       if (err) console.log(err)
@@ -112,7 +120,7 @@ ipcMain.on('runScript', (_, scriptName) => {
         watcher.close()
       })
     })
-  } else if (scriptName == 'uninstall') {
+  } else if (ScriptOptions.name == 'uninstall') {
     let watcher = sendStdout()
     readFile(uninstallScript, 'utf8', (err, data) => {
       if (err) console.log(err)
@@ -123,16 +131,92 @@ ipcMain.on('runScript', (_, scriptName) => {
         watcher.close()
       })
     })
-  }else if (scriptName == 'quick') {
+  }else if (ScriptOptions.name == 'quick') {
     let watcher = sendStdout()
     readFile(quickScript, 'utf8', (err, data) => {
       if (err) console.log(err)
-      // console.log(pipeStdout(data))
+      console.log(pipeStdout(data))
       // // Execute a command using sudo and pipe the output to the output file
       sudo.exec(pipeStdout(data), { name: 'OS Hardening' }, () => {
         // Once process is complete, close the watcher
         watcher.close()
       })
     })
+  }
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  else if (ScriptOptions.name == 'ufw') {
+
+
+    if(Array.isArray(ScriptOptions.args)) {
+      if(ScriptOptions.args[0]=='0'){
+        // enable ufw
+        let watcher = sendStdout()
+        readFile(ufwScriptEnable, 'utf8', (err, data) => {
+          if (err) console.log(err)
+          // console.log(pipeStdout(data))
+          // // Execute a command using sudo and pipe the output to the output file
+          sudo.exec(pipeStdout(data), { name: 'OS Hardening' }, () => {
+            // Once process is complete, close the watcher
+            watcher.close()
+          })
+        })
+      }
+
+      else if(ScriptOptions.args[0]=='1'){
+        // enable ufw
+        let watcher = sendStdout()
+        readFile(ufwScriptDisable, 'utf8', (err, data) => {
+          if (err) console.log(err)
+          // console.log(pipeStdout(data))
+          // // Execute a command using sudo and pipe the output to the output file
+          sudo.exec(pipeStdout(data), { name: 'OS Hardening' }, () => {
+            // Once process is complete, close the watcher
+            watcher.close()
+          })
+        })
+      }
+
+      else if(ScriptOptions.args[0]=='2'){
+        // enable ufw
+        let watcher = sendStdout()
+        readFile(ufwScriptStatus, 'utf8', (err, data) => {
+          if (err) console.log(err)
+          // console.log(pipeStdout(data))
+          // // Execute a command using sudo and pipe the output to the output file
+          sudo.exec(pipeStdout(data), { name: 'OS Hardening' }, () => {
+            // Once process is complete, close the watcher
+            watcher.close()
+          })
+        })
+      }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    }
+
+
+
+
+
+    
   }
 })
